@@ -11,8 +11,8 @@ rho = 0.25  # Correlation between Asset 1 and Asset 2
 # Covariance between Asset 1 and Asset 2
 cov12 = rho * sigma1 * sigma2
 
-# Create a range of portfolio weights for Asset 1 (w1), from 0 to 1
-w1 = np.linspace(0, 1, 100)
+# Create a range of portfolio weights for Asset 1 (w1), from -0.5 to 1.5 to show shorting and over-investing
+w1 = np.linspace(-0.5, 1.5, 300)
 w2 = 1 - w1  # Weight for Asset 2
 
 # Portfolio returns and standard deviations
@@ -31,6 +31,9 @@ sigma_mvp = np.sqrt(w1_mvp**2 * sigma1**2 + w2_mvp**2 * sigma2**2 + 2 * w1_mvp *
 # Plot the efficient frontier (feasible set)
 plt.figure(figsize=(10, 6))
 plt.plot(portfolio_std, portfolio_return, label="Feasible Set (Efficient Frontier)", color='blue')
+
+# Highlight the upper part (efficient frontier) by filtering where returns are above MVP
+plt.plot(portfolio_std[portfolio_return >= mu_mvp], portfolio_return[portfolio_return >= mu_mvp], color='green', label="Efficient Frontier", linewidth=2)
 
 # Plot the Minimum Variance Portfolio (MVP)
 plt.scatter(sigma_mvp, mu_mvp, color='red', label="MVP", zorder=5)
